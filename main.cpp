@@ -4,14 +4,19 @@
 #include <unistd.h>
 #include <termios.h>
 #include <stdlib.h>
-//enable raw input mode in terminal so that our keyboard input is sent to the program immediately 
+#include <vector>
+#include <string>
+#define unlock_token "607721";
+#define lock_token "607724";
 
+using namespace std;
 struct termios orig_termios;
 
 void disableRawMode(){
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);//restore terminal attributes to their original values
 }
 
+//enable raw input mode in terminal so that our keyboard input is sent to the program immediately 
 void enableRawMode(){
 	tcgetattr(STDIN_FILENO,&orig_termios);//read terminal attributes into 'orig_termios' 
 	atexit(disableRawMode);
@@ -26,12 +31,40 @@ void enableRawMode(){
 int main(){
 	enableRawMode();
 	char c;
-	//read 1 byte from standard input until it is empty, exit on "q" input
-	while(read(STDIN_FILENO, &c, 1)==1 && c!='q'){
+	vector<char> buf;
+	
+	while(read(STDIN_FILENO, &c, 1)==1 && c!='q'){ //read 1 byte from standard input until it is empty, exit on "q" input
 		if(iscntrl(c)){
+			printf("exiting");
 			printf("%d\n",c);
 		}else{
-			printf("%d, ('%c')\n",c,c);
+			if(buf.size() < 6){
+				buf.push_back(c);
+			}
+			else{
+				buf.erase(buf.begin());
+				buf.push_back(c);
+				string key(buf.begin(),buf.end());
+				if(key== "607721")
+				{
+					printf("Unlocked!\n");
+				}
+				if(key == "607724")
+				{
+					printf("Locked!\n");
+				}
+			}
+
+			#ifdef DEBUG //print out extra information in debug mode
+			printf("Current buffer: { ");
+			for(auto i = buf.begin(); i != buf.end(); ++i){
+				cout << *i << " ";
+			}
+			string s(buf.begin(),buf.end());
+			printf("} \nLast keypress: ('%c')\n",c);
+			cout << s << "\n";
+			#endif
+
 		}
 	}
 	disableRawMode();
