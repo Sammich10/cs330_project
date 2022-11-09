@@ -1,6 +1,6 @@
-## CS330 Coding Assignment
+# CS330 Coding Assignment
 
-# How-to 
+## How-to 
 Do use this program, ensure you have C/C++ and G++ compiler installed on your system.
 This program was created and tested on Ubuntu using Vim and VSCode.
 
