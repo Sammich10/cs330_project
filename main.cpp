@@ -22,9 +22,9 @@ void enableRawMode(){
 	atexit(disableRawMode);
 	struct termios raw = orig_termios;//copy original terminal attr into 'raw'
 	raw.c_lflag &= ~(ECHO | ICANON);//disable echoing in terminal (key presses wont be printed on screen) 
-			       		//with a bitwise NOT, then a bitwise AND to set 4th bit to zero
-					//also disables canonical mode so program reads byte by byte
-	tcsetattr(STDIN_FILENO,TCSAFLUSH,&raw);//write terminal attricbutes
+			       			//with a bitwise NOT, then a bitwise AND to set 4th bit to zero
+							//also disables canonical mode so program reads byte by byte
+	tcsetattr(STDIN_FILENO,TCSAFLUSH,&raw);//write terminal attributes
 }
 
 
@@ -32,12 +32,10 @@ int main(){
 	enableRawMode();
 	char c;
 	vector<char> buf;
+	int state = 0; //state represents the state of the system, 0 for 'locked', 1 for 'unlocked'
 	
 	while(read(STDIN_FILENO, &c, 1)==1 && c!='q'){ //read 1 byte from standard input until it is empty, exit on "q" input
-		if(iscntrl(c)){
-			printf("exiting");
-			printf("%d\n",c);
-		}else{
+		if(isdigit(c)){
 			if(buf.size() < 6){
 				buf.push_back(c);
 			}
@@ -45,13 +43,19 @@ int main(){
 				buf.erase(buf.begin());
 				buf.push_back(c);
 				string key(buf.begin(),buf.end());
-				if(key== "607721")
+				if(key == "607721")
 				{
-					printf("Unlocked!\n");
+					if(state == 0){
+						state = 1;
+						printf("Unlocked!\n");
+					}
 				}
 				if(key == "607724")
 				{
-					printf("Locked!\n");
+					if(state == 1){
+						state = 0;
+						printf("Locked!\n");
+					}
 				}
 			}
 
