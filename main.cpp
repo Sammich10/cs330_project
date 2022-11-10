@@ -36,11 +36,11 @@ int main(){
 	
 	while(read(STDIN_FILENO, &c, 1)==1 && c!='q'){ //read 1 byte from standard input until it is empty, exit on "q" input
 		if(isdigit(c)){
-			if(buf.size() < 6){
+			if(buf.size() < 5){
 				buf.push_back(c);
 			}
 			else{
-				buf.erase(buf.begin());
+				if(buf.size() >= 6) buf.erase(buf.begin());
 				buf.push_back(c);
 				string key(buf.begin(),buf.end());
 				if(key == "607721")
