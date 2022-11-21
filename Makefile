@@ -3,8 +3,9 @@ CC = g++
 
 CFLAGS = -g -Wall
 
-main: main.cpp
-	$(CC) $(CFLAGS) -o main.o main.cpp
+main: lockengine.cpp lockbreaker.cpp
+	$(CC) $(CFLAGS) -o lockengine.o lockengine.cpp
+	$(CC) $(CFLAGS) -o lockbreaker.o lockbreaker.cpp
 
 debug: CFLAGS += -DDEBUG -g
 debug: main
