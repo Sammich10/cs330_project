@@ -11,6 +11,7 @@
 
 using namespace std;
 struct termios orig_termios;
+bool locked = true;		//boolean value used to track the state of the locking engine
 
 void disableRawMode(){
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);//restore terminal attributes to their original values
@@ -27,12 +28,23 @@ void enableRawMode(){
 	tcsetattr(STDIN_FILENO,TCSAFLUSH,&raw);//write terminal attributes
 }
 
+int unlockSequence(){		//this is the function that is called when the lock is unlocked, if this was a real implementation we would put 
+	locked = false;				//code here to actually perform the unlocking of whatever mechanism it was deployed to control
+	printf("Unlocked!\n");
+	return 0;
+}
+
+int lockSequence(){
+	locked = true;
+	printf("Locked!\n");
+	return 0;
+}
+
 
 int main(){
 	enableRawMode();
 	char c;
 	vector<char> buf;
-	int state = 0; //state represents the state of the system, 0 for 'locked', 1 for 'unlocked'
 	
 	while(read(STDIN_FILENO, &c, 1)==1 && c!='q'){ //read 1 byte from standard input until it is empty, exit on "q" input
 		if(isdigit(c)){
@@ -40,21 +52,19 @@ int main(){
 				buf.push_back(c);
 			}
 			else{
-				if(buf.size() >= 6) buf.erase(buf.begin());
-				buf.push_back(c);
-				string key(buf.begin(),buf.end());
-				if(key == "607721")
+				if(buf.size() >= 6) buf.erase(buf.begin()); //dont let the buffer exceed 6 digits in size
+				buf.push_back(c);							//add the newest keypress input to the back of the buffer
+				string key(buf.begin(),buf.end());			//concatenate the buffer into a single string for comparison
+				if(key == "607721")							//check to see if the correct unlock combination has been inputted 
 				{
-					if(state == 0){
-						state = 1;
-						printf("Unlocked!\n");
+					if(locked == true){
+						unlockSequence();
 					}
 				}
-				if(key == "607724")
+				if(key == "607724")							//check to see if the correct lock combination has been inputted
 				{
-					if(state == 1){
-						state = 0;
-						printf("Locked!\n");
+					if(locked == false){
+						lockSequence();
 					}
 				}
 			}
