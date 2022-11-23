@@ -5,7 +5,7 @@ To use this program, ensure you have C/C++ and G++ compiler installed on your sy
 This program was created and tested on Ubuntu 22.04.1 LTS using Vim and VSCode. 
 
 To run the program, clone the repository, and navigate to the directory you cloned it in using the 
-Ubuntu terminal emulator. Type and run "make" to compile the program.
+Ubuntu terminal emulator. Type and run "make" to compile the program. You can run "make clean; make" to recompile.
 
 ## How-to (lockengine.o)
 After compiling the source code with 'make', run './lockengine.o' in the terminal.
