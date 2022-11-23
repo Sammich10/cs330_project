@@ -29,6 +29,10 @@ them to the pre-defined lock and unlock tokens. If the unlock sequence is detect
 the unlock sequence again does not do anything. Similarly, when the "lock" sequence is detected, the system checks the state to see if it is unlocked, 
 and if it is it will change the 'state' variable back to 0 and print out "Locked!". 
 
+I don't have any 'unit tests' because I didn't feel there was any particular 'units' within the program to be tested. It's very simple and the only testing 
+I found neccesary was just testing it out once it was done. There is some extra code that can be seen when you compile the source code with the DEBUG flag,
+and I didn't see any other effective ways of testing. 
+
 ## How-to (lockbreaker.o)
 After compiling the source code with 'make', run './lockbreaker.o' in the terminal with an integer argument. For example, './lockbreaker.o 25'
 
@@ -40,3 +44,6 @@ for that 'run'.
 This program is arguably simpler than the other, it uses the same technique of filling a vector "buffer" with 6 digits and testing them against the correct unlock code. It tracks
 the number of guesses with a simple 'counter' integer. After each iteration the counter value is compared against a running min and max value. It will collect all the counts 
 into an array and use that array for calculating the overall average.
+
+### Author
+Coded by Samuel Michelsen
