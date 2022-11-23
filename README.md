@@ -1,7 +1,7 @@
 # CS330 Coding Assignment
 
 ## Usage
-Do use this program, ensure you have C/C++ and G++ compiler installed on your system.
+To use this program, ensure you have C/C++ and G++ compiler installed on your system. For linux, type command '$ sudo apt install g++'
 This program was created and tested on Ubuntu 22.04.1 LTS using Vim and VSCode. 
 
 To run the program, clone the repository, and navigate to the directory you cloned it in using the 
