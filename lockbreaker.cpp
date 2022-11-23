@@ -30,16 +30,16 @@ int main(int argc, char** argv){
     srand(time(NULL));
     for(int i = 0; i < iterations; i++){
         while(1){
-            int randomInt = (rand() % 10)+48;
-            char c = (char)randomInt; 
-            //printf("%c",c);
+            int randomInt = (rand() % 10)+48; //generate a random integer between 48-57 (these correspond to 0-9 in ascii)
+            char c = (char)randomInt;  	      //cast the integer to a character
+            //printf("%c",c); //prints out all the characters guessed. uncomment at your own risk
 
-            if(buf.size() < 5){
+            if(buf.size() < 5){               //grow the buffer if it has fewer than 5 items in it
 				buf.push_back(c);
                 counter++;
 			}
 			else{
-				if(buf.size() >= 6) buf.erase(buf.begin());
+				if(buf.size() >= 6) buf.erase(buf.begin()); //fill the buffer on the sixth inputted character. don't let the buffer exceed 6 items
 				buf.push_back(c);
 				string key(buf.begin(),buf.end());
                 counter++;
