@@ -15,7 +15,7 @@ and likewise when the lock sequence is typed in, it will print "Locked!".
 
 To exit the program, either type the character 'q' or use the 'ctrl+c' escape sequence. 
 
-If you are interested to see some extra details, you can run "make clean; make debug" and then run "./main.o" to see some 
+If you are interested to see some extra details, you can run "make clean; make debug" and then run "./lockengine.o" to see some 
 extra output such as the programs "buffer" that stores the 6 most recently input digits, as well as the last keypress input.
 
 ## Explanation (lockengine)
